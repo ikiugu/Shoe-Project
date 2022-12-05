@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".welcome.WelcomeFragment">
 
+    <!--The linear layout is suitable as there is not much complexity-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

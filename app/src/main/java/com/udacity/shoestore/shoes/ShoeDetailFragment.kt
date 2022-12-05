@@ -20,19 +20,14 @@ class ShoeDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding: FragmentShoeDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_shoe_detail, container, false)
+
+        binding.shoeViewModel = shoeViewModel
+
         binding.saveButton.setOnClickListener {
-            with(binding) {
-                if (shoeNameEditText.text.isEmpty() || companyNameEditText.text.isEmpty() || shoeSizeEditText.text.isEmpty() || descriptionEditText.text.isEmpty()) {
-                    Toast.makeText(context, getString(R.string.field_validation_error_message), Toast.LENGTH_SHORT).show()
-                } else {
-                    shoeViewModel.addShoe(
-                        name = shoeNameEditText.text.toString().trim(),
-                        company = companyNameEditText.text.toString().trim(),
-                        size = shoeSizeEditText.text.toString().toDouble(),
-                        description = descriptionEditText.text.toString().trim()
-                    )
-                    findNavController().navigate(ShoeDetailFragmentDirections.actionShoeDetailFragmentToShoeListFragment())
-                }
+            if (shoeViewModel.isNewShoeAdded()) {
+                findNavController().navigate(ShoeDetailFragmentDirections.actionShoeDetailFragmentToShoeListFragment())
+            } else {
+                Toast.makeText(context, getString(R.string.field_validation_error_message), Toast.LENGTH_SHORT).show()
             }
         }
 

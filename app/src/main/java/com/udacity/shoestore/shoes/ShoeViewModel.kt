@@ -12,6 +12,11 @@ class ShoeViewModel : ViewModel() {
     val shoes: LiveData<MutableList<Shoe>>
         get() = _shoes
 
+    var shoeName = ""
+    var shoeCompany = ""
+    var shoeSize = ""
+    var shoeDescription = ""
+
     init {
         Timber.i("initialized")
         _shoes.value = mutableListOf()
@@ -23,11 +28,27 @@ class ShoeViewModel : ViewModel() {
         addShoe(defaultShoe)
     }
 
+    fun isNewShoeAdded(): Boolean {
+        if (shoeValid()) {
+            addShoe(name = shoeName, size = shoeSize.toDouble(), company = shoeCompany, description = shoeDescription)
+            return true
+        }
+
+        return false;
+    }
+
+    private fun shoeValid(): Boolean {
+        if (shoeName.isBlank() || shoeSize.isBlank() || shoeCompany.isBlank() || shoeDescription.isBlank()) {
+            return false
+        }
+        return true
+    }
+
     private fun addShoe(shoe: Shoe) {
         _shoes.value!!.add(shoe)
     }
 
-    fun addShoe(name: String, size: Double, company: String, description: String) {
+    private fun addShoe(name: String, size: Double, company: String, description: String) {
         val shoe = Shoe(name, size, company, description)
         _shoes.value!!.add(shoe)
     }
